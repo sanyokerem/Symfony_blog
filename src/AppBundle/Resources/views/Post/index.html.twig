@@ -1,0 +1,46 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Main page{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href= {{ asset('bundles/app/css/style.css') }}>
+
+<h1>All user posts</h1>
+{% for post in posts|reverse(true) %}
+    <div class="panel panel-info">
+    	<div class="panel-heading">
+    		<h3 class="panel-title"><a href={{ path('show_post', {post: post.post.id}) }}> <b>{{ post.post.title }}</b> </a>
+            </h3>
+    	</div>
+    	<div class="panel-body">
+            {% if post.post.path %}
+                <img class = 'img-rounded' src="{{ asset(post.post.path) }}" whidth = 250 height = 250>
+            {% endif %}<br>
+    		{{ post.post.content }}
+            <hr>
+            <ul>
+    		{% for comment in post.post.comments %}
+    		    <li>
+    		    	<span class="label label-default">{{ comment.author }}</span>
+                    <p>{{ comment.comment }}</p>
+    		    </li>
+    		{% endfor %}
+            </ul>
+    	</div>
+        <div class="panel-footer">
+            <span class="badge">
+                    {% if post.name %}
+                        {{ post.name }}
+                    {% else %}
+                        Unknown user
+                    {% endif %}
+            </span>
+            {{ post.post.createdAt|date('j M Y \\a\\t G:i') }}
+            {% if app.user == post.post.user %}
+                <a href={{ path('remove_post', {post: post.post.id}) }}><span class="badge  pull-right">Delete</span></a>
+                <a href={{ path('update_post', {post: post.post.id}) }}><span class="badge pull-right">Update</span></a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

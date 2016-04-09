@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            {% if app.user %}
+                {{ app.user.name }}
+            {% else %}
+                Home
+            {% endif %}
+        </a>
+        <ul class="nav navbar-nav">
+            {% if app.user %}
+                <li>
+                    <a href={{ path('all_posts') }}>Posts</a>
+                </li>
+                <li>
+                    <a href={{ path('new_post') }}>Add post</a>
+                </li>
+                <li>
+                    <a href={{ path('user_logout') }}>Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href={{ path('user_register') }}>Registration</a>
+                </li>
+                <li>
+                    <a href={{ path('user_login') }}>Login</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+        {% block stylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="container">
+                
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+            
+        </div>
+    </body>
+</html>
